@@ -12,6 +12,7 @@ export default function BookApp() {
     (async () => {
       await SplashScreen.preventAutoHideAsync();
       //load book genres here.
+      
     })();
   });
 
