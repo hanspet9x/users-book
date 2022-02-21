@@ -1,6 +1,7 @@
 export interface IResponse<T> {
     data: T;
-    status: number;
+    message: string;
     statusText: "failed" | "success";
     error: boolean;
+    status: number;
 }
