@@ -1,8 +1,9 @@
+import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {appTheme} from './src/styles/paperTheme';
-import {NavigationContainer} from '@react-navigation/native';
 import AppNavigation from './src/navigations/AppNavigation';
 import {navigationRef} from './src/navigations/navigations';
+import {registerRootComponent} from 'expo';
 export default function App() {
   return (
     // <Provider store={store}>
@@ -14,4 +15,5 @@ export default function App() {
     // </Provider>
   );
 }
+registerRootComponent(App);
 

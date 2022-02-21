@@ -9,13 +9,12 @@ class BookService {
   static async getGenres() {
     try {
       const response = await APIService.get<IGenreResponse[]>({
-        url: bookURL.getGenres,
-      });
+        url: bookURL.getGenres, cache: true});
       if (response.error) {
-        return {error: true, status: response.status};
+        return {error: true, status: response.status, data: null};
       }
       await BookService.saveGenre(response.data);
-      return {error: false, status: response.status};
+      return {error: false, status: response.status, data: response.data};
     } catch (error) {
       throw error;
     }

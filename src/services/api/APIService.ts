@@ -11,14 +11,16 @@ export class APIService {
     url,
     baseUrl,
     headers,
+    cache,
   }: {
     url: string;
     baseUrl?: string;
     headers?: any;
+    cache?: boolean;
   }): Promise<IResponse<R>> {
     return await APIService.api<R>(
       baseUrl ? baseUrl + url : APIService.BASE_URL + url,
-      {headers},
+      {headers, cache: 'force-cache'},
     );
   }
 

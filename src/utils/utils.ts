@@ -27,3 +27,18 @@ export const wrapError = (e: any) => {
   return e as Error;
 };
 
+export const splitArray = (array: any[], count: number) => {
+  const nArray:any[] = [];
+  let temp:any[] = [];
+  for (let i = 1; i <= array.length; i++) {
+    temp.push(array[i-1]);
+    if (i % count === 0) {
+      nArray.push(temp);
+      temp = [];
+    }
+  }
+  if (temp.length > 0) nArray.push(temp);
+  return nArray;
+};
+
+

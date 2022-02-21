@@ -1,7 +1,7 @@
-import {useNavigationContainerRef} from '@react-navigation/native';
+import {createNavigationContainerRef} from '@react-navigation/native';
 import {RootStackParamList} from './stacks';
 
-export const navigationRef = useNavigationContainerRef<RootStackParamList>();
+export const navigationRef = createNavigationContainerRef<RootStackParamList>();
 
 export const navigate = (name: keyof RootStackParamList, params?: any) => {
   if (navigationRef.isReady()) {
