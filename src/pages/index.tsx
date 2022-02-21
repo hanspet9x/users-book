@@ -3,6 +3,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
+import SplashView from '../containers/splashscreen/SplashView';
 
 export default function BookApp() {
 
@@ -17,7 +18,7 @@ export default function BookApp() {
   });
 
   if(!ready) {
-    return <></>
+    return <SplashView />
   }
 
   return (
