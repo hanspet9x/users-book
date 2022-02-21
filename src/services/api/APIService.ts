@@ -1,7 +1,7 @@
-import { IResponse } from "./interface/api.types";
+import {IResponse} from './interface/api.types';
 
 export class APIService {
-  static BASE_URL = "http://localhost:3000/books/";
+  static BASE_URL = 'http://localhost:3000/v1/books/';
 
   static async get<R>({
     url,
@@ -14,14 +14,14 @@ export class APIService {
   }): Promise<IResponse<R>> {
     return await APIService.api<R>(
       baseUrl ? baseUrl + url : APIService.BASE_URL + url,
-      { headers }
+      {headers},
     );
   }
 
   static async post<T, R>(
-    url: string,
-    data: T,
-    headers?: any
+      url: string,
+      data: T,
+      headers?: any,
   ): Promise<IResponse<R>> {
     return await APIService.api<R>(url, {
       headers,
@@ -30,13 +30,13 @@ export class APIService {
   }
 
   private static async api<T>(
-    url: string,
-    request: RequestInit
+      url: string,
+      request: RequestInit,
   ): Promise<IResponse<T>> {
     const nRequest: RequestInit = {
       ...request,
-      headers: { "Content-Type": "application/json" },
-      mode: "cors",
+      headers: {'Content-Type': 'application/json'},
+      mode: 'cors',
     };
     try {
       const res = await fetch(url, nRequest);

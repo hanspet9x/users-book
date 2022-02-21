@@ -1,3 +1,3 @@
 export const images = {
-    splashScreen: require('./images/book.png')
-}
+  splashScreen: require('./images/book.png'),
+};
