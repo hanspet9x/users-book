@@ -12,8 +12,15 @@ export const prefetchImagesEx = async <T>(
   return await Promise.all(data.map((obj) => Image.prefetch(obj[imgKey])));
 };
 
-export const loadFonts = async (fonts: Record<string, FontSource>[]) => {
+export const loadArrayFonts = async (fonts: Record<string, FontSource>[]) => {
   return await Promise.all(fonts.map((font) => Font.loadAsync(font)));
+};
+
+export const loadObjFonts = async (fonts: Record<string, FontSource>) => {
+  return await Promise.all(
+      Object.entries(fonts).map(
+          ([fontName, fontSource]) =>
+            Font.loadAsync({[fontName]: fontSource})));
 };
 
 export const wrapError = (e: any) => {
