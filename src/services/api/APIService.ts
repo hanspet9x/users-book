@@ -3,6 +3,10 @@ import {IResponse} from './interface/api.types';
 export class APIService {
   static BASE_URL = 'http://localhost:3000/v1/books/';
 
+  static NOT_FOUND = 404;
+  static REQUEST_TIMEOUT = 408;
+  static UNPROCESSABLE = 422;
+
   static async get<R>({
     url,
     baseUrl,
@@ -40,7 +44,8 @@ export class APIService {
     };
     try {
       const res = await fetch(url, nRequest);
-      const data = await res.json();
+      const data = await res.json() as IResponse<T>;
+      data.status = res.status;
       return data as IResponse<T>;
     } catch (error: any) {
       throw new Error(error);

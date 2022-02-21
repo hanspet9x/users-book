@@ -4,10 +4,12 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamList} from './stacks';
 import BookGenres from '../pages/genres/BookGenres';
 import BookCart from '../pages/cart/BookCart';
-import PortalDialog from '../components/dialog/PortalDialog';
+import DialogContainer from '../containers/dialog/DialogContainer';
 
 const AppNavigation = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();
+
+
   return (
     <Stack.Navigator>
       <Stack.Group>
@@ -15,7 +17,7 @@ const AppNavigation = () => {
         <Stack.Screen name='Cart' component={BookCart} />
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'transparentModal'}}>
-        <Stack.Screen name='Dialog' component={PortalDialog} />
+        <Stack.Screen name='Dialog' component={DialogContainer} />
       </Stack.Group>
     </Stack.Navigator>
   );

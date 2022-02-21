@@ -1,19 +1,14 @@
 // import {StyleSheet} from 'react-native';
 import React from 'react';
 import PortalDialog from '../../components/dialog/PortalDialog';
-import {useNavigation} from '@react-navigation/native';
+import {RootScreenStackProps} from '../../navigations/stacks';
 
-export interface IDialogProps {
-    title: string;
-    description: string;
-    show: boolean;
-}
-const DialogContainer = (props: IDialogProps) => {
-  const navigation = useNavigation();
+type Props = RootScreenStackProps<'Dialog'>
+const DialogContainer = ({route, navigation}: Props) => {
   return (
-    <PortalDialog title={props.title}
-      description={props.description}
-      show={props.show}
+    <PortalDialog title={route.params.title}
+      description={route.params.description}
+      show={route.params.show}
       onHide={()=>navigation.goBack()}
     />
   );

@@ -16,4 +16,7 @@ export const loadFonts = async (fonts: Record<string, FontSource>[]) => {
   return await Promise.all(fonts.map((font) => Font.loadAsync(font)));
 };
 
+export const wrapError = (e: any) => {
+  return e as Error;
+};
 
