@@ -3,9 +3,16 @@ export const images = {
   imageThumbnail: require('./images/thumbnail.png'),
 };
 
+export const fontFamily = {
+  bold: 'Lora-Bold',
+  medium: 'Lora-Medium',
+  regular: 'Lora-Regular',
+  semiBold: 'Lora-SemiBold',
+};
+
 export const fonts = {
-  'Lora-Bold': require('./fonts/Lora-Bold.ttf'),
-  'Lora-Medium': require('./fonts/Lora-Medium.ttf'),
-  'Lora-Regular': require('./fonts/Lora-Regular.ttf'),
-  'Lora-SemiBold': require('./fonts/Lora-SemiBold.ttf'),
+  [fontFamily.bold]: require('./fonts/Lora-Bold.ttf'),
+  [fontFamily.medium]: require('./fonts/Lora-Medium.ttf'),
+  [fontFamily.regular]: require('./fonts/Lora-Regular.ttf'),
+  [fontFamily.semiBold]: require('./fonts/Lora-SemiBold.ttf'),
 };
