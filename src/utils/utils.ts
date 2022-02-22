@@ -41,4 +41,8 @@ export const splitArray = (array: any[], count: number) => {
   return nArray;
 };
 
+export const createArray = (size: number) => {
+  return Array.from({length: size});
+};
+
 

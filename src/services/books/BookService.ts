@@ -3,26 +3,35 @@ import {IGenreResponse} from './interface/GenreResponse.types';
 import {bookURL} from './routes/route';
 import StorageService from '../storage/StorageService';
 import {LogService} from '../log/LogService';
+import {ResponseService} from '../response/ResponseService';
 class BookService {
   static GENRE_STORAGE_KEY = 'book-genre';
-
+  static GENRE_BATCH_SIZE = 10;
   static async getGenres() {
     try {
       const response = await APIService.get<IGenreResponse[]>({
         url: bookURL.getGenres, cache: true});
+      const message = ResponseService.getMessageFromStatus(response.status);
       if (response.error) {
-        return {error: true, status: response.status, data: null};
+        return {
+          data: null,
+          message,
+        };
       }
       await BookService.saveGenre(response.data);
-      return {error: false, status: response.status, data: response.data};
+      return {data: response.data, message};
     } catch (error) {
       throw error;
     }
   }
 
   static async getStoredGenres() {
-    return await StorageService.getStorage()
+    const items = await StorageService.getStorage()
         .getItem(BookService.GENRE_STORAGE_KEY);
+    if (items) {
+      return JSON.parse(items) as IGenreResponse[];
+    }
+    return null;
   }
 
   static async getBookCheckoutLink(genres: string) {
@@ -48,7 +57,7 @@ class BookService {
       // await prefetchImagesEx<IGenreResponse>(data, 'imgURL');
     } catch (error) {
       LogService.error(error);
-      // TODO: Add global hook for errors.
+      // TODO: Add global hook for errors
     }
   }
 };

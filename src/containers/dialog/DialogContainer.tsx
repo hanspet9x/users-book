@@ -8,8 +8,8 @@ const DialogContainer = ({route, navigation}: Props) => {
   return (
     <PortalDialog title={route.params.title}
       description={route.params.description}
-      show={route.params.show}
-      onHide={()=>navigation.goBack()}
+      show={true}
+      onHide={()=>navigation.navigate('Genre')}
     />
   );
 };

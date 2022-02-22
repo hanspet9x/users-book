@@ -6,7 +6,7 @@ import {ICartProp} from '../pages/cart/cart.types';
 export type RootStackParamList = {
     Genre: undefined;
     Cart: ICartProp;
-    Dialog: IDialogProps
+    Dialog: IDialogProps;
 };
 
 export type RootScreenStackProps<T extends keyof RootStackParamList> =

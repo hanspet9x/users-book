@@ -2,31 +2,40 @@ import {useState} from 'react';
 import {useEffect} from 'react';
 import {IDialogProps} from '../../../containers/dialog/dialog.types';
 import {navigate} from '../../../navigations/navigations';
-import {wrapError} from '../../../utils/utils';
+import {splitArray, wrapError} from '../../../utils/utils';
 import {IGenreResponse} from '../interface/GenreResponse.types';
 import BookService from './../BookService';
 
 type Props = {
-  error: boolean;
-  status: number;
-  loaded: boolean;
-  data: IGenreResponse[] | null;
+  loading: boolean;
+  data: IGenreResponse[][] | null;
+  message: string,
 }
 export const useRetrieveGenre = () => {
   const [response, setResponse] = useState<Props>({
-    error: false, status: 0, loaded: false,
-    data: [],
+    loading: true, data: [], message: '',
   });
+
+  const onRefresh = async () => {
+    setResponse({...response, loading: true});
+    try {
+      const {data, message} = await BookService.getGenres();
+      console.log(data, message);
+      let splittedData = null;
+      if (data) {
+        splittedData = splitArray(data, 2);
+      }
+      setResponse({loading: false, data: splittedData, message});
+    } catch (error) {
+      setResponse({loading: false, data: null,
+        message: wrapError(error).message});
+    }
+  };
 
   useEffect(() => {
     (async () => {
       try {
-        const storedData = await BookService.getStoredGenres();
-        if (storedData) {
-          // setResponse()
-        }
-        const {error, status, data} = await BookService.getGenres();
-        setResponse({error, status, loaded: true, data});
+        await onRefresh();
       } catch (error) {
         navigate('Dialog',
         {
@@ -35,6 +44,6 @@ export const useRetrieveGenre = () => {
         } as IDialogProps);
       }
     })();
-  });
-  return response;
+  }, []);
+  return [response, onRefresh] as [Props, ()=>void];
 };

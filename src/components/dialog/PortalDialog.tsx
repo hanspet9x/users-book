@@ -1,6 +1,6 @@
 // import {StyleSheet} from 'react-native';
 import React from 'react';
-import {Button, Dialog, Paragraph, Portal, Title} from 'react-native-paper';
+import {Button, Dialog, Paragraph, Title} from 'react-native-paper';
 
 interface Props {
   title: string;
@@ -11,17 +11,17 @@ interface Props {
 }
 const PortalDialog = (props: Props) => {
   return (
-    <Portal>
-      <Dialog visible={props.show}>
-        <Dialog.Content>
-          <Title>{props.title}</Title>
-          <Paragraph>{props.description}</Paragraph>
-        </Dialog.Content>
-        <Dialog.Actions>
-          <Button onPress={props.onHide}>{props.actionText ?? 'OK'}</Button>
-        </Dialog.Actions>
-      </Dialog>
-    </Portal>
+    // <Portal>
+    <Dialog visible={props.show}>
+      <Dialog.Content>
+        <Title>{props.title}</Title>
+        <Paragraph>{props.description}</Paragraph>
+      </Dialog.Content>
+      <Dialog.Actions>
+        <Button onPress={props.onHide}>{props.actionText ?? 'OK'}</Button>
+      </Dialog.Actions>
+    </Dialog>
+    // </Portal>
   );
 };
 
