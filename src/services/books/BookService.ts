@@ -6,6 +6,7 @@ import {LogService} from '../log/LogService';
 import {ResponseService} from '../response/ResponseService';
 class BookService {
   static GENRE_STORAGE_KEY = 'book-genre';
+  static CART_URL_STORAGE_KEY = 'book-cart-url';
   static GENRE_BATCH_SIZE = 10;
   static async getGenres() {
     try {
@@ -34,15 +35,23 @@ class BookService {
     return null;
   }
 
-  static async getBookCheckoutLink(genres: string) {
+  static async getBookCheckoutLink(genreURL: string) {
     try {
       const response = await APIService.get<string>({
-        url: bookURL.getBookCheckoutURL(genres),
+        url: bookURL.getBookCheckoutURL(genreURL),
+        cache: true,
       });
-      if (!response.error) {
-        return response.data;
+      const message = ResponseService.getMessageFromStatus(response.status);
+      if (response.error) {
+        return {
+          data: null,
+          message,
+          status: response.status,
+        };
       }
-      throw new Error('something is wrong.');
+      StorageService.getStorage()
+          .setItem(genreURL, response.data);
+      return {data: response.data, message, status: response.status};
     } catch (error) {
       throw error;
     }

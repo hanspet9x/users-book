@@ -7,18 +7,31 @@ import BookGenre from '../../components/genre/BookGenre';
 import {useGenreBatching} from '../../services/books/hooks/useGenreBatching';
 import {AppStrings} from '../../common/string';
 import {useAppLoading} from '../../hooks/useAppLoading';
+import {useGetCartUrl} from '../../services/books/hooks/useGetCartURL';
+import {navigate} from '../../navigations/navigations';
+import {ICartProp} from '../../pages/cart/cart.types';
+import {IDialogProps} from '../dialog/dialog.types';
 
 type Props = {
     data: IGenreResponse[][],
 }
 const BookGenres = (props: Props) => {
   const {batchInfo, getUpdates} = useGenreBatching();
+  const get = useGetCartUrl();
   const {onShow} = useAppLoading();
 
-  const onGetCartUrl = () => {
+  const onGetCartUrl = async (genreURL: string) => {
     onShow(AppStrings.genre.getCartURL);
-    // call artURL
+    const info = await get(genreURL);
+    if (info.data) {
+      // navigate to cartURL
+      navigate<ICartProp>('Cart', {genreURL});
+    } else {
+      navigate<IDialogProps>('Dialog',
+          {title: 'Error', description: info.message});
+    }
   };
+
 
   const renderItem = (genres: IGenreResponse[]) => {
     return (

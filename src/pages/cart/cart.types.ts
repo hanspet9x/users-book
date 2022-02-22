@@ -1,3 +1,3 @@
 export interface ICartProp {
-    genreUrl: string;
+    genreURL: string;
 }
