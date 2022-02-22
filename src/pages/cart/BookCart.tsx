@@ -1,11 +1,11 @@
-import {Text, View} from 'react-native';
 import React from 'react';
+import {RootScreenStackProps} from '../../navigations/stacks';
+import {WebView} from 'react-native-webview';
+type Props = RootScreenStackProps<'Cart'>;
 
-const BookCart = () => {
+const BookCart = (props: Props) => {
   return (
-    <View>
-      <Text>BookCart</Text>
-    </View>
+    <WebView source={{uri: props.route.params.genreURL}} />
   );
 };
 

@@ -18,11 +18,12 @@ type Props = {
 const BookGenres = (props: Props) => {
   const {batchInfo, getUpdates} = useGenreBatching();
   const get = useGetCartUrl();
-  const {onShow} = useAppLoading();
+  const {onShow, onHide} = useAppLoading();
 
   const onGetCartUrl = async (genreURL: string) => {
     onShow(AppStrings.genre.getCartURL);
     const info = await get(genreURL);
+    onHide();
     if (info.data) {
       // navigate to cartURL
       navigate<ICartProp>('Cart', {genreURL});
