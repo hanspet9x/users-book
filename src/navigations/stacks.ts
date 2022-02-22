@@ -7,6 +7,7 @@ export type RootStackParamList = {
     Genre: undefined;
     Cart: ICartProp;
     Dialog: IDialogProps;
+    AppLoading: undefined;
 };
 
 export type RootScreenStackProps<T extends keyof RootStackParamList> =

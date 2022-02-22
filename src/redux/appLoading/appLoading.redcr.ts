@@ -1,15 +1,19 @@
 import {IAction} from '../action.types';
-import {IAppLoadingAction} from './appLoading.action';
+import {IAppLoadingPayload} from './appLoading.action';
 
-const initialState: IAppLoadingAction = {
+const initialState: IAppLoadingPayload = {
   toggle: false,
+  message: '',
 };
 export const appLoadingReducer = (
     state = initialState,
-    action: IAction<IAppLoadingAction>) => {
+    action: IAction<IAppLoadingPayload>) => {
   switch (action.type) {
-    case 'toggle':
-      return {...state, toggle: action.payload};
+    case 'appLoading':
+      return {...state,
+        toggle: action.payload.toggle,
+        message: action.payload.message,
+      };
 
     default:
       return state;

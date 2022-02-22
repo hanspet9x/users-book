@@ -1,3 +1,4 @@
-export interface IAppLoadingAction {
+export interface IAppLoadingPayload {
     toggle: boolean;
+    message: string;
 };

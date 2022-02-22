@@ -1,4 +1,6 @@
 import {combineReducers} from 'redux';
 import {appLoadingReducer} from './appLoading/appLoading.redcr';
 
-export const combinedReducer = combineReducers(appLoadingReducer);
+export const combinedReducer = combineReducers({
+  appLoading: appLoadingReducer,
+});

@@ -6,11 +6,14 @@ import {navigationRef} from './src/navigations/navigations';
 import {registerRootComponent} from 'expo';
 import {store} from './src/redux/store';
 import {Provider} from 'react-redux';
+import AppLoadingContainer from
+  './src/containers/appLoading/AppLoadingContainer';
 
 export default function App() {
   return (
     <Provider store={store}>
       <PaperProvider theme={appTheme}>
+        <AppLoadingContainer />
         <NavigationContainer ref={navigationRef}>
           <AppNavigation />
         </NavigationContainer>

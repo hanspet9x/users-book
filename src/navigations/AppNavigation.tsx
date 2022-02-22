@@ -8,6 +8,7 @@ import {useCacheAsset} from '../hooks/useCacheAssets';
 import {ActivityIndicator, Colors} from 'react-native-paper';
 import GenresPage from '../pages/genres/GenresPage';
 import {fontFamily} from '../assets/assets';
+import AppLoadingContainer from '../containers/appLoading/AppLoadingContainer';
 
 const AppNavigation = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -27,6 +28,7 @@ const AppNavigation = () => {
         headerShown: false,
       }}>
         <Stack.Screen name='Dialog' component={DialogContainer} />
+        <Stack.Screen name='AppLoading' component={AppLoadingContainer} />
       </Stack.Group>
     </Stack.Navigator>
   ): <ActivityIndicator animating={true} color={Colors.transparent} />;

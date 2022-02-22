@@ -20,7 +20,6 @@ export const useRetrieveGenre = () => {
     setResponse({...response, loading: true});
     try {
       const {data, message} = await BookService.getGenres();
-      console.log(data, message);
       let splittedData = null;
       if (data) {
         splittedData = splitArray(data, 2);

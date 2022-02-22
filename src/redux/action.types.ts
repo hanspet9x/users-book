@@ -1,4 +1,6 @@
+import {IRootState} from './state.types';
+
 export interface IAction<T> {
-  type: keyof T;
-  payload: Partial<T>;
+  type: keyof IRootState;
+  payload: T;
 };
