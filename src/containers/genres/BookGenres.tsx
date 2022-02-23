@@ -6,11 +6,14 @@ import Row from '../rows/Row';
 import BookGenre from '../../components/genre/BookGenre';
 import {useGenreBatching} from '../../services/books/hooks/useGenreBatching';
 import {useGetCheckoutURL} from '../../services/books/hooks/useGetCheckoutURL';
+import {useEffect} from 'react';
+import {useState} from 'react';
 
 type Props = {
     data: IGenreResponse[][],
 }
 const BookGenres = (props: Props) => {
+  const [genres, setGenres] = useState(props.data);
   const {batchInfo, getUpdates} = useGenreBatching();
   const get = useGetCheckoutURL();
 
@@ -18,6 +21,12 @@ const BookGenres = (props: Props) => {
     await get(genreURL);
   };
 
+  useEffect(() => {
+    if (batchInfo.batch) {
+      const data = [...genres, ...batchInfo.batch];
+      setGenres(data);
+    }
+  }, [batchInfo.loading, batchInfo.batch]);
   const renderItem = (genres: IGenreResponse[]) => {
     return (
       <Row>
@@ -35,12 +44,12 @@ const BookGenres = (props: Props) => {
     );
   };
   return (
-    <FlatList data={props.data}
+    <FlatList data={genres}
       renderItem={({item}) => renderItem(item)}
       keyExtractor={(item, i) => `list${i}`}
       refreshing={batchInfo.loading}
       onEndReached={getUpdates}
-      extraData={batchInfo.batch}
+      extraData={[batchInfo.batch, genres]}
     />
   );
 };

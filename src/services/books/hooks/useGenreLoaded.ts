@@ -1,7 +1,5 @@
 import {useState} from 'react';
-import {useEffect} from 'react';
-import {IDialogProps} from '../../../containers/dialog/dialog.types';
-import {navigate} from '../../../navigations/navigations';
+import {AppConfig} from '../../../config/app.config';
 import {splitArray, wrapError} from '../../../utils/utils';
 import {IGenreResponse} from '../interface/GenreResponse.types';
 import BookService from './../BookService';
@@ -12,37 +10,25 @@ type Props = {
   message: string,
 }
 export const useRetrieveGenre = () => {
-  const [response, setResponse] = useState<Props>({
+  const [info, setInfo] = useState<Props>({
     loading: true, data: [], message: '',
   });
 
-  const onRefresh = async () => {
-    setResponse({...response, loading: true});
+  const get = async () => {
+    setInfo({...info, loading: true});
     try {
       const {data, message} = await BookService.getGenres();
       let splittedData = null;
       if (data) {
-        splittedData = splitArray(data, 2);
+        splittedData = splitArray(
+            data.slice(0, BookService.GENRE_BATCH_SIZE),
+            AppConfig.GENRE_COLUMN_SIZE);
       }
-      setResponse({loading: false, data: splittedData, message});
+      setInfo({loading: false, data: splittedData, message});
     } catch (error) {
-      setResponse({loading: false, data: null,
+      setInfo({loading: false, data: null,
         message: wrapError(error).message});
     }
   };
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await onRefresh();
-      } catch (error) {
-        navigate('Dialog',
-        {
-          title: 'Error',
-          description: wrapError(error).message,
-        } as IDialogProps);
-      }
-    })();
-  }, []);
-  return [response, onRefresh] as [Props, ()=>void];
+  return {info, get};
 };

@@ -2,9 +2,11 @@ import {useEffect, useState} from 'react';
 import {IGenreResponse} from './../interface/GenreResponse.types';
 import BookService from './../BookService';
 import {useRef} from 'react';
+import {splitArray} from '../../../utils/utils';
+import {AppConfig} from './../../../config/app.config';
 
 type Props = {
-  batch: IGenreResponse[] | null;
+  batch: IGenreResponse[][] | null;
   loading: boolean;
   done: boolean;
 }
@@ -21,8 +23,10 @@ export const useGenreBatching = () => {
     ref.current = 0;
     (async () => {
       const genres = await BookService.getStoredGenres();
-      genresRef.current = genres;
-      ref.current = BookService.GENRE_BATCH_SIZE;
+      if (genres) {
+        genresRef.current = splitArray(genres, AppConfig.GENRE_COLUMN_SIZE);
+        ref.current = BookService.GENRE_BATCH_SIZE;
+      }
     });
   }, []);
   // call repeatedly to batch;
@@ -34,7 +38,7 @@ export const useGenreBatching = () => {
       ref.current += BookService.GENRE_BATCH_SIZE;
       const batch = genresRef.current.slice(temp, ref.current);
       setBatch({
-        batch,
+        batch: splitArray(batch, AppConfig.GENRE_COLUMN_SIZE),
         done: batch.length === genresRef.current.length,
         loading: false,
       });

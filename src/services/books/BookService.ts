@@ -3,7 +3,8 @@ import {IGenreResponse} from './interface/GenreResponse.types';
 import {bookURL} from './routes/route';
 import StorageService from '../storage/StorageService';
 import {LogService} from '../log/LogService';
-import {ResponseService} from '../response/ResponseService';
+import {ICheckoutResponse} from './interface/CheckoutResponse.types';
+import {AppStrings} from './../../common/string';
 class BookService {
   static GENRE_STORAGE_KEY = 'book-genre';
   static CART_URL_STORAGE_KEY = 'book-cart-url';
@@ -15,16 +16,21 @@ class BookService {
 
   static async getGenres() {
     try {
+      /* const storeData = await BookService
+          .getStoredGenres();
+      if (storeData) {
+        return {data: storeData, message: ''};
+      } */
       const response = await APIService.get<IGenreResponse[]>({
-        url: bookURL.getGenres, cache: true});
-      const message = ResponseService.getBookMessageFromStatus(response.status);
+        url: bookURL.getGenres});
+      const message = BookService.getBookMessageFromStatus(response.status);
       if (response.error) {
         return {
           data: null,
           message,
         };
       }
-      await BookService.saveGenre(response.data);
+      BookService.saveGenre(response.data);
       return {data: response.data, message};
     } catch (error) {
       throw error;
@@ -42,12 +48,11 @@ class BookService {
 
   static async getBookCheckoutLink(genreURL: string, retryCheckout?: boolean) {
     try {
-      const response = await APIService.get<string>({
+      const response = await APIService.get<ICheckoutResponse>({
         url: retryCheckout? bookURL.retryBookCheckoutURL(genreURL) :
         bookURL.getBookCheckoutURL(genreURL),
-        cache: true,
       });
-      const message = ResponseService.getBookMessageFromStatus(response.status);
+      const message = BookService.getBookMessageFromStatus(response.status);
       if (response.error) {
         return {
           data: null,
@@ -57,6 +62,7 @@ class BookService {
       }
       return {data: response.data, message, status: response.status};
     } catch (error) {
+      console.error('error', error);
       throw error;
     }
   }
@@ -71,6 +77,21 @@ class BookService {
     } catch (error) {
       LogService.error(error);
       // TODO: Add global hook for errors
+    }
+  }
+
+  static getBookMessageFromStatus(status: number) {
+    switch (status) {
+      case BookService.NOT_FOUND:
+        return AppStrings.errors.notFound;
+      case BookService.REQUEST_TIMEOUT:
+        return AppStrings.errors.timeOut;
+      case BookService.UNPROCESSABLE:
+        return AppStrings.errors.unproccessed;
+      case APIService.BAD_REQUEST:
+        return AppStrings.errors.badRequest;
+      default:
+        return AppStrings.errors.general;
     }
   }
 };

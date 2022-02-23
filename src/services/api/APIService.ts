@@ -4,7 +4,7 @@ import {IResponse} from './interface/api.types';
 
 export class APIService {
   static BASE_URL = AppConfig.HOST + AppConfig.BASE_PATH;
-
+  static BAD_REQUEST = 400;
   static async get<R>({
     url,
     baseUrl,

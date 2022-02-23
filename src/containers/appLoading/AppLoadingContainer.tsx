@@ -1,4 +1,3 @@
-import {StyleSheet} from 'react-native';
 import React from 'react';
 import AppLoading from '../../components/appLoading.tsx/AppLoading';
 import {useAppSelector} from '../../redux/hooks/useSelector';
@@ -11,4 +10,3 @@ const AppLoadingContainer = () => {
 };
 
 export default AppLoadingContainer;
-const styles = StyleSheet.create({});

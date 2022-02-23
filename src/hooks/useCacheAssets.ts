@@ -12,10 +12,10 @@ export const useCacheAsset = () => {
       try {
         await Splash.preventAutoHideAsync();
         await loadObjFonts(fonts);
+        await Splash.hideAsync();
       } catch (error) {
         LogService.error(error);
       } finally {
-        await Splash.hideAsync();
         setLoaded(true);
       }
     })();

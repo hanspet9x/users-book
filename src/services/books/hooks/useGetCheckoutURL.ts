@@ -2,16 +2,15 @@ import {AppStrings} from '../../../common/string';
 import {IDialogProps} from '../../../containers/dialog/dialog.types';
 import {useAppLoading} from '../../../hooks/useAppLoading';
 import {navigate} from '../../../navigations/navigations';
-import {ICartProp as ICheckoutProp} from '../../../pages/cart/cart.types';
 import {wrapError} from '../../../utils/utils';
 import BookService from '../BookService';
+import * as WebBrowser from 'expo-web-browser';
 
 
 export const useGetCheckoutURL = () => {
   const {onShow, onHide} = useAppLoading();
   // get checkout URL
   const get = async (genreURL: string, retry?: boolean) => {
-    console.log('URL', genreURL);
     try {
       // show loading
       onShow(AppStrings.genre.getCheckoutURL);
@@ -20,8 +19,8 @@ export const useGetCheckoutURL = () => {
       // hide loading
       onHide();
       if (data) {
-      // navigate to cartURL
-        navigate<ICheckoutProp>('Cart', {genreURL: data});
+      // open the browser
+        await WebBrowser.openBrowserAsync(data.cartURL);
       } else {
         // an error or timeout occured
         // callback called if timeout occur
@@ -31,7 +30,7 @@ export const useGetCheckoutURL = () => {
           }
         };
         // prepare dialog
-        let dialog: IDialogProps = {title: 'Error', description: message};
+        let dialog: IDialogProps = {title: 'Oops!', description: message};
         if (status === BookService.REQUEST_TIMEOUT) {
           dialog = {
             ...dialog,
@@ -47,6 +46,7 @@ export const useGetCheckoutURL = () => {
       // return data null type
       return {data, message};
     } catch (error) {
+      console.error(error);
       return {data: null, message: wrapError(error).message};
     }
   };

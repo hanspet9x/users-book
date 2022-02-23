@@ -2,7 +2,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamList} from './stacks';
-import BookCart from '../pages/cart/BookCart';
 import DialogContainer from '../containers/dialog/DialogContainer';
 import {useCacheAsset} from '../hooks/useCacheAssets';
 import {ActivityIndicator, Colors} from 'react-native-paper';
@@ -19,9 +18,8 @@ const AppNavigation = () => {
       <Stack.Group screenOptions={{
         headerTitleStyle: {fontFamily: fontFamily.bold}}}>
         <Stack.Screen options={
-          {headerTitle: 'Book Genres'}
+          {headerTitle: 'Select Genres'}
         } name='Genre' component={GenresPage} />
-        <Stack.Screen name='Cart' component={BookCart} />
       </Stack.Group>
       <Stack.Group screenOptions={{
         presentation: 'transparentModal',
