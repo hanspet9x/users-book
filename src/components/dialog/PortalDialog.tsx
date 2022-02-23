@@ -8,6 +8,7 @@ interface Props {
   show: boolean;
   onHide():void;
   actionText?: string;
+  secondaryActionText?: string;
 }
 const PortalDialog = (props: Props) => {
   return (
@@ -18,6 +19,8 @@ const PortalDialog = (props: Props) => {
         <Paragraph>{props.description}</Paragraph>
       </Dialog.Content>
       <Dialog.Actions>
+        {props.secondaryActionText &&
+        <Button onPress={props.onHide}>{props.actionText ?? 'OK'}</Button>}
         <Button onPress={props.onHide}>{props.actionText ?? 'OK'}</Button>
       </Dialog.Actions>
     </Dialog>

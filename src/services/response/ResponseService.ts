@@ -1,15 +1,15 @@
-import {APIService} from '../api/APIService';
+import BookService from '../books/BookService';
 
 export const ResponseService = {
-  getMessageFromStatus(status: number) {
+  getBookMessageFromStatus(status: number) {
     switch (status) {
-      case APIService.NOT_FOUND:
-        return 'Requested data not found! Kindly try another.!';
-      case APIService.REQUEST_TIMEOUT:
+      case BookService.NOT_FOUND:
+        return 'Requested book not found! Kindly try another.!';
+      case BookService.REQUEST_TIMEOUT:
         return `It seems data retrieval time is longer
          than expected, continue?`;
-      case APIService.UNPROCESSABLE:
-        return 'This request cannot be processed at theis time. ';
+      case BookService.UNPROCESSABLE:
+        return 'This request cannot be processed at this time. ';
       default:
         return '';
     }

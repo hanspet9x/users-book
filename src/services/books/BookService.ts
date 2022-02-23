@@ -8,11 +8,16 @@ class BookService {
   static GENRE_STORAGE_KEY = 'book-genre';
   static CART_URL_STORAGE_KEY = 'book-cart-url';
   static GENRE_BATCH_SIZE = 10;
+
+  static NOT_FOUND = 404;
+  static REQUEST_TIMEOUT = 408;
+  static UNPROCESSABLE = 422;
+
   static async getGenres() {
     try {
       const response = await APIService.get<IGenreResponse[]>({
         url: bookURL.getGenres, cache: true});
-      const message = ResponseService.getMessageFromStatus(response.status);
+      const message = ResponseService.getBookMessageFromStatus(response.status);
       if (response.error) {
         return {
           data: null,
@@ -35,13 +40,14 @@ class BookService {
     return null;
   }
 
-  static async getBookCheckoutLink(genreURL: string) {
+  static async getBookCheckoutLink(genreURL: string, retryCheckout?: boolean) {
     try {
       const response = await APIService.get<string>({
-        url: bookURL.getBookCheckoutURL(genreURL),
+        url: retryCheckout? bookURL.retryBookCheckoutURL(genreURL) :
+        bookURL.getBookCheckoutURL(genreURL),
         cache: true,
       });
-      const message = ResponseService.getMessageFromStatus(response.status);
+      const message = ResponseService.getBookMessageFromStatus(response.status);
       if (response.error) {
         return {
           data: null,
@@ -49,8 +55,6 @@ class BookService {
           status: response.status,
         };
       }
-      StorageService.getStorage()
-          .setItem(genreURL, response.data);
       return {data: response.data, message, status: response.status};
     } catch (error) {
       throw error;
