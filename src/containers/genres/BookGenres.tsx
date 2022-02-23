@@ -5,7 +5,7 @@ import {IGenreResponse} from
 import Row from '../rows/Row';
 import BookGenre from '../../components/genre/BookGenre';
 import {useGenreBatching} from '../../services/books/hooks/useGenreBatching';
-import {useGetCheckoutURL} from '../../services/books/hooks/useGetCartURL';
+import {useGetCheckoutURL} from '../../services/books/hooks/useGetCheckoutURL';
 
 type Props = {
     data: IGenreResponse[][],
@@ -17,7 +17,6 @@ const BookGenres = (props: Props) => {
   const onGetCartUrl = async (genreURL: string) => {
     await get(genreURL);
   };
-
 
   const renderItem = (genres: IGenreResponse[]) => {
     return (

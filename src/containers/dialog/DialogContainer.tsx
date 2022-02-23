@@ -5,11 +5,13 @@ import {RootScreenStackProps} from '../../navigations/stacks';
 
 type Props = RootScreenStackProps<'Dialog'>
 const DialogContainer = ({route, navigation}: Props) => {
-  const onHide = () => {
+  const onHide = (isSecondaryAction?: boolean) => {
     navigation.goBack();
     route.params.callback && route.params.callback(route.params?.extra);
-    route.params.secondaryCallback &&
-    route.params.secondaryCallback(route.params?.extra);
+    if (isSecondaryAction) {
+      route.params.secondaryCallback &&
+      route.params.secondaryCallback(route.params?.extra);
+    }
   };
   return (
     <PortalDialog title={route.params.title}

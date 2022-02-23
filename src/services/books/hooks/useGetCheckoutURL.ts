@@ -14,7 +14,7 @@ export const useGetCheckoutURL = () => {
     console.log('URL', genreURL);
     try {
       // show loading
-      onShow(AppStrings.genre.getCartURL);
+      onShow(AppStrings.genre.getCheckoutURL);
       const {data, message, status} = await BookService
           .getBookCheckoutLink(genreURL, retry);
       // hide loading
@@ -36,7 +36,8 @@ export const useGetCheckoutURL = () => {
           dialog = {
             ...dialog,
             title: 'Time out',
-            callback: dialogRetryGetURL,
+            secondaryActionText: 'RETRY',
+            secondaryCallback: dialogRetryGetURL,
             extra: status,
           };
         }

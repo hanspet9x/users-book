@@ -6,7 +6,7 @@ interface Props {
   title: string;
   description: string;
   show: boolean;
-  onHide():void;
+  onHide(isSecondaryAction?: boolean):void;
   actionText?: string;
   secondaryActionText?: string;
 }
@@ -20,7 +20,8 @@ const PortalDialog = (props: Props) => {
       </Dialog.Content>
       <Dialog.Actions>
         {props.secondaryActionText &&
-        <Button onPress={props.onHide}>{props.actionText ?? 'OK'}</Button>}
+        <Button onPress={()=>props.onHide(true)}>
+          {props.actionText ?? 'OK'}</Button>}
         <Button onPress={props.onHide}>{props.actionText ?? 'OK'}</Button>
       </Dialog.Actions>
     </Dialog>
