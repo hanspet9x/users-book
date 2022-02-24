@@ -5,7 +5,6 @@ import {IDialogProps} from '../containers/dialog/dialog.types';
 export type RootStackParamList = {
     Genre: undefined;
     Dialog: IDialogProps;
-    AppLoading: undefined;
 };
 
 export type RootScreenStackProps<T extends keyof RootStackParamList> =

@@ -18,7 +18,7 @@ export class APIService {
   }): Promise<IResponse<R>> {
     return await APIService.api<R>(
       baseUrl ? baseUrl + url : APIService.BASE_URL + url,
-      {headers, cache: 'force-cache'},
+      {headers, cache: cache ? 'force-cache' : 'default'},
     );
   }
 

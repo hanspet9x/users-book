@@ -1,4 +1,4 @@
-export interface IAppLoadingPayload {
+export interface IAppLoadingState {
     toggle: boolean;
     message: string;
 };

@@ -1,5 +1,5 @@
-import {IAppLoadingPayload} from './appLoading/appLoading.action';
+import {IAppLoadingState} from './appLoading/appLoading.state';
 
 export interface IRootState {
-  appLoading: IAppLoadingPayload
+  appLoading: IAppLoadingState
 }
